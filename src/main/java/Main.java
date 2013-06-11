@@ -11,34 +11,59 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command line wrapper which loads a file adhering to the following format:
+ * 
+ * The first line of input is the upper-right coordinates of the plateau, the
+ * lower-left coordinates are assumed to be 0,0. The rest of the input is
+ * information pertaining to the robots that have been deployed. Each robot has
+ * two lines of input. The first line gives the robot's position, and the second
+ * line is a series of instructions telling the robot how to explore the
+ * plateau. 
+ * 
+ * The final position of all robots are displayed after all commands have been
+ * executed.
+ * 
+ */
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 		String commandFileName = null;
 
+		/*
+		 * Got arguments?
+		 */
 		if (args.length > 0) {
 
 			commandFileName = args[0];
-			System.out
-					.println("Loading robot commands from " + commandFileName);
 
+			/*
+			 * Attempt to read in specified file
+			 */
 			BufferedReader file = null;
 			try {
 				file = new BufferedReader(new FileReader(commandFileName));
 			} catch (FileNotFoundException e) {
 				System.out
-						.println("command file not found, please check filename and try again.");
+						.println("ERROR: command file not found, please check filename and try again.");
 				System.exit(1);
 			}
 
+			/*
+			 * Parse file in a primitive manner, creating commands to send to
+			 * the controller as the file is parsed
+			 */
 			Controller controller = null;
 			try {
+				/*
+				 * Extract the plateau maximum dimensions
+				 */
 				String plateauDimensionLine = file.readLine();
 				String[] dimensions = plateauDimensionLine.split(" ");
 
 				if (dimensions.length < 2) {
 					System.out
-							.println("first line of command file must specify dimensions.  eg 10 10.");
+							.println("ERROR:  first line of command file must specify dimensions.  eg 10 10.");
 					System.exit(1);
 				}
 
@@ -48,31 +73,30 @@ public class Main {
 					maxX = Integer.parseInt(dimensions[0]);
 					maxY = Integer.parseInt(dimensions[1]);
 				} catch (NumberFormatException ex) {
-					System.out.println("dimensions must be numeric");
+					System.out
+							.println("ERROR: plateau dimensions must be numeric");
 					System.exit(1);
 				}
 
-				System.out.println("Plateau maximum dimensions are " + maxX
-						+ " by " + maxY);
 				controller = new Controller(maxX, maxY);
 
+				/*
+				 * Parse robot initial position and movements. Robots are parsed
+				 * individually and it is assumed that each robot command is
+				 * correct and contains an initial position line as well as a
+				 * line of movement commands.
+				 */
 				List<Command> robotMovementCommands = new ArrayList<Command>();
-				// Parse initial robot position and movement commands. It is
-				// assumed that there are two
-				// complete lines in the command file.
 				String initialPosition = null;
 				while ((initialPosition = file.readLine()) != null) {
 
-					if (initialPosition == null) {
-						System.out
-								.println("initial robot position must be present");
-						System.exit(1);
-					}
-
+					/*
+					 * Extract robots initial position
+					 */
 					String[] position = initialPosition.split(" ");
 					if (position.length < 3) {
 						System.out
-								.println("Robots initial position must be in correct format. X Y Heading");
+								.println("ERROR: Robots initial position must be in correct format. X Y Heading");
 						System.exit(1);
 					}
 
@@ -97,13 +121,15 @@ public class Main {
 							initialHeading = HEADING.W;
 							break;
 						default:
-							System.out.println("Unknown initial heading of "
-									+ position[2] + ".  Must be N, E, S or W.");
+							System.out
+									.println("ERROR: Unknown initial heading of "
+											+ position[2]
+											+ ".  Must be N, E, S or W.");
 							System.exit(1);
 						}
 					} catch (NumberFormatException ex) {
 						System.out
-								.println("unable to parse Robots initial position.  Please verify format is correct.");
+								.println("ERROR: Unable to parse Robots initial position.  Please verify format is correct.");
 						System.exit(1);
 					}
 
@@ -118,7 +144,7 @@ public class Main {
 
 					if (movementCommands == null || movementCommands.isEmpty()) {
 						System.out
-								.println("Robots movement commands must be specified");
+								.println("ERROR: Robots movement commands must be specified");
 						System.exit(1);
 					}
 
@@ -137,35 +163,40 @@ public class Main {
 						}
 
 					}
-
-					System.out.println("Robot commands added");
 					robotMovementCommands.add(command);
 
 				}
 
-				System.out.println("Executing robot commands");
+				/*
+				 * Execute robot commands
+				 */
 				controller.executeCommands(robotMovementCommands);
-				
+
+				/*
+				 * Determine robots final position and heading
+				 */
 				List<Robot> robots = controller.getRobots();
-				
+
 				for (Robot robot : robots) {
 					int finalX = robot.getX();
 					int finalY = robot.getY();
 					HEADING finalHeading = robot.getHeading();
-					
-					System.out.println("" + finalX + " " + finalY + " " + finalHeading);
-					
+
+					System.out.println("" + finalX + " " + finalY + " "
+							+ finalHeading);
+
 				}
 
 			} catch (IOException e) {
 				System.out
-						.println("Unexpected error in command file.  Please verify format is correct.");
+						.println("ERROR: Unexpected error in command file.  Please verify format is correct.");
 			} finally {
 				file.close();
 			}
 
 		} else {
-			System.out.println("please enter name of command file");
+			System.out
+					.println("Command file not specifed.  Please enter name of command file.");
 		}
 
 	}
