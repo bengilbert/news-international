@@ -1,8 +1,9 @@
-package gilbert.newsinternational;
+package gilbert.challenge;
 
 import static org.junit.Assert.*;
 
-import gilbert.newsinternational.Heading.HEADING;
+import gilbert.challenge.Robot;
+
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
@@ -11,54 +12,54 @@ public class RobotTest {
 
 	@Test
 	public void testRotateLeft() {
-		Robot r = new Robot(HEADING.N, 0, 0);
+		Robot r = new Robot(Position.NORTH, 0, 0);
 		assertThat(r, IsNull.notNullValue());
-		assertThat(r.getHeading(), Is.is(HEADING.N));
+		assertThat(r.getBearing(), Is.is("N"));
 
 		r.rotateLeft();
-		assertThat(r.getHeading(), Is.is(HEADING.W));
+		assertThat(r.getBearing(), Is.is("W"));
 
 		r.rotateLeft();
-		assertThat(r.getHeading(), Is.is(HEADING.S));
+		assertThat(r.getBearing(), Is.is("S"));
 
 		r.rotateLeft();
-		assertThat(r.getHeading(), Is.is(HEADING.E));
+		assertThat(r.getBearing(), Is.is("E"));
 
 		r.rotateLeft();
-		assertThat(r.getHeading(), Is.is(HEADING.N));
+		assertThat(r.getBearing(), Is.is("N"));
 
 		r.rotateLeft();
-		assertThat(r.getHeading(), Is.is(HEADING.W));
+		assertThat(r.getBearing(), Is.is("W"));
 
 	}
 
 	@Test
 	public void testRotateRight() {
-		Robot r = new Robot(HEADING.N, 0, 0);
+		Robot r = new Robot(Position.NORTH, 0, 0);
 		assertThat(r, IsNull.notNullValue());
-		assertThat(r.getHeading(), Is.is(HEADING.N));
+		assertThat(r.getBearing(), Is.is("N"));
 
 		r.rotateRight();
-		assertThat(r.getHeading(), Is.is(HEADING.E));
+		assertThat(r.getBearing(), Is.is("E"));
 
 		r.rotateRight();
-		assertThat(r.getHeading(), Is.is(HEADING.S));
+		assertThat(r.getBearing(), Is.is("S"));
 
 		r.rotateRight();
-		assertThat(r.getHeading(), Is.is(HEADING.W));
+		assertThat(r.getBearing(), Is.is("W"));
 
 		r.rotateRight();
-		assertThat(r.getHeading(), Is.is(HEADING.N));
+		assertThat(r.getBearing(), Is.is("N"));
 
 		r.rotateRight();
-		assertThat(r.getHeading(), Is.is(HEADING.E));
+		assertThat(r.getBearing(), Is.is("E"));
 	}
 
 	@Test
 	public void testMovement() {
 
 		// attempt to move forward from 0,0
-		Robot r = new Robot(HEADING.N, 0, 0);
+		Robot r = new Robot(Position.NORTH, 0, 0);
 
 		// Move to top left hand corner
 		r.move();
@@ -125,55 +126,55 @@ public class RobotTest {
 	public void testCanMove() {
 
 		// robot is at bottom left
-		Robot r = new Robot(HEADING.N, 0, 0);
+		Robot r = new Robot(Position.NORTH, 0, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
-		r = new Robot(HEADING.E, 0, 0);
+		r = new Robot(Position.EAST, 0, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
-		r = new Robot(HEADING.S, 0, 0);
+		r = new Robot(Position.SOUTH, 0, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
-		r = new Robot(HEADING.W, 0, 0);
+		r = new Robot(Position.WEST, 0, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
 		// robot is at bottom right
-		r = new Robot(HEADING.N, 10, 0);
+		r = new Robot(Position.NORTH, 10, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
-		r = new Robot(HEADING.E, 10, 0);
+		r = new Robot(Position.EAST, 10, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
-		r = new Robot(HEADING.S, 10, 0);
+		r = new Robot(Position.SOUTH, 10, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
-		r = new Robot(HEADING.W, 10, 0);
+		r = new Robot(Position.WEST, 10, 0);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
 		// robot is at top left
-		r = new Robot(HEADING.N, 0, 10);
+		r = new Robot(Position.NORTH, 0, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
-		r = new Robot(HEADING.E, 0, 10);
+		r = new Robot(Position.EAST, 0, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
-		r = new Robot(HEADING.S, 0, 10);
+		r = new Robot(Position.SOUTH, 0, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
-		r = new Robot(HEADING.W, 0, 10);
+		r = new Robot(Position.WEST, 0, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
 		// robot is at top right
-		r = new Robot(HEADING.N, 10, 10);
+		r = new Robot(Position.NORTH, 10, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
-		r = new Robot(HEADING.E, 10, 10);
+		r = new Robot(Position.EAST, 10, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(false));
 
-		r = new Robot(HEADING.S, 10, 10);
+		r = new Robot(Position.SOUTH, 10, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
-		r = new Robot(HEADING.W, 10, 10);
+		r = new Robot(Position.WEST, 10, 10);
 		assertThat(r.isNextPositionWithinBounds(10, 10), Is.is(true));
 
 	}

@@ -1,8 +1,8 @@
-import gilbert.newsinternational.Command;
-import gilbert.newsinternational.Command.MOVEMENT_COMMAND;
-import gilbert.newsinternational.Controller;
-import gilbert.newsinternational.Heading.HEADING;
-import gilbert.newsinternational.Robot;
+import gilbert.challenge.Command;
+import gilbert.challenge.Controller;
+import gilbert.challenge.Position;
+import gilbert.challenge.Robot;
+import gilbert.challenge.Command.MOVEMENT_COMMAND;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -102,23 +102,23 @@ public class Main {
 
 					int initialX = 0;
 					int initialY = 0;
-					HEADING initialHeading = null;
+					int initialHeading = 0;
 
 					try {
 						initialX = Integer.parseInt(position[0]);
 						initialY = Integer.parseInt(position[1]);
 						switch (position[2].charAt(0)) {
 						case 'N':
-							initialHeading = HEADING.N;
+							initialHeading = Position.NORTH;
 							break;
 						case 'E':
-							initialHeading = HEADING.E;
+							initialHeading = Position.EAST;
 							break;
 						case 'S':
-							initialHeading = HEADING.S;
+							initialHeading = Position.SOUTH;
 							break;
 						case 'W':
-							initialHeading = HEADING.W;
+							initialHeading = Position.WEST;
 							break;
 						default:
 							System.out
@@ -180,10 +180,10 @@ public class Main {
 				for (Robot robot : robots) {
 					int finalX = robot.getX();
 					int finalY = robot.getY();
-					HEADING finalHeading = robot.getHeading();
+					String finalBearing = robot.getBearing();
 
 					System.out.println("" + finalX + " " + finalY + " "
-							+ finalHeading);
+							+ finalBearing);
 
 				}
 

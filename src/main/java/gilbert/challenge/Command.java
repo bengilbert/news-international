@@ -1,11 +1,9 @@
-package gilbert.newsinternational;
+package gilbert.challenge;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import gilbert.newsinternational.Heading.HEADING;
 
 /**
  * This class contains all command for an individual {@link Robot}. and is comprised of:
@@ -22,14 +20,21 @@ public class Command {
 	public enum MOVEMENT_COMMAND {
 		MOVE, ROTATE_LEFT, ROTATE_RIGHT
 	};
+	
 
 	private int initialX;
 	private int initialY;
-	private HEADING initialHeading;
+	private int initialHeading;
 
 	private List<MOVEMENT_COMMAND> movementCommands = new ArrayList<MOVEMENT_COMMAND>();
 
-	public Command(int initialX, int initialY, HEADING initialHeading) {
+	/**
+	 * 
+	 * @param initialX initial x position
+	 * @param initialY initial y position
+	 * @param initialHeading Compass bearing - initial direction of movement
+	 */
+	public Command(int initialX, int initialY, int initialHeading) {
 		this.initialX = initialX;
 		this.initialY = initialY;
 		this.initialHeading = initialHeading;
@@ -51,7 +56,7 @@ public class Command {
 		return initialY;
 	}
 
-	public HEADING getInitialHeading() {
+	public int getInitialHeading() {
 		return initialHeading;
 	}
 }

@@ -1,12 +1,15 @@
-package gilbert.newsinternational;
+package gilbert.challenge;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import gilbert.newsinternational.Command.MOVEMENT_COMMAND;
-import gilbert.newsinternational.Heading.HEADING;
+import gilbert.challenge.Command;
+import gilbert.challenge.Controller;
+import gilbert.challenge.Robot;
+import gilbert.challenge.Command.MOVEMENT_COMMAND;
+
 import org.hamcrest.core.Is;
 
 import org.junit.Test;
@@ -16,7 +19,7 @@ public class ControllerTest {
 	@Test
 	public void testControllerBasic() {
 		Controller controller = new Controller(10, 10);
-		Command command = new Command(0, 0, HEADING.N);
+		Command command = new Command(0, 0, Position.NORTH);
 		command.addCommand(MOVEMENT_COMMAND.MOVE);
 		command.addCommand(MOVEMENT_COMMAND.MOVE);
 		command.addCommand(MOVEMENT_COMMAND.MOVE);
@@ -36,7 +39,7 @@ public class ControllerTest {
 	@Test
 	public void testControllerBoundryChecking() {
 		Controller controller = new Controller(10, 10);
-		Command command = new Command(0, 0, HEADING.N);
+		Command command = new Command(0, 0, Position.NORTH);
 		command.addCommand(MOVEMENT_COMMAND.MOVE);
 		command.addCommand(MOVEMENT_COMMAND.MOVE);
 		command.addCommand(MOVEMENT_COMMAND.MOVE);
@@ -79,11 +82,11 @@ public class ControllerTest {
 	public void testControllerMovement() {
 		List<Command> commands = new ArrayList<Command>();
 		Controller controller = new Controller(10, 10);
-		Command command = new Command(0, 0, HEADING.N);
+		Command command = new Command(0, 0, Position.NORTH);
 		command.addCommand(MOVEMENT_COMMAND.ROTATE_LEFT);
 		commands.add(command);
 		
-		Command command2 = new Command(0,0, HEADING.N);
+		Command command2 = new Command(0, 0, Position.NORTH);
 		command2.addCommand(MOVEMENT_COMMAND.ROTATE_RIGHT);
 		commands.add(command2);
 
@@ -91,8 +94,8 @@ public class ControllerTest {
 
 		List<Robot> robots = controller.getRobots();
 		assertThat(robots.size(), Is.is(2));
-		assertThat(robots.get(0).getHeading(), Is.is(HEADING.W));
-		assertThat(robots.get(1).getHeading(), Is.is(HEADING.E));
+		assertThat(robots.get(0).getBearing(), Is.is("W"));
+		assertThat(robots.get(1).getBearing(), Is.is("E"));
 		
 
 	}

@@ -1,6 +1,4 @@
-package gilbert.newsinternational;
-
-import gilbert.newsinternational.Heading.HEADING;
+package gilbert.challenge;
 
 /**
  * Simple Robot class. Bounds checking is performed. No other error checking or
@@ -14,7 +12,7 @@ public class Robot {
 	 * Create a new {@link Robot} with an initial heading and position.
 	 * 
 	 * @param initialHeading
-	 *            Robots initial {@link Heading}. Mandatory.
+	 *            Robots initial heading. This is a compass bearing. Mandatory.
 	 * @param x
 	 *            Robots initial x position - note this can be outside of the
 	 *            plateau
@@ -22,7 +20,7 @@ public class Robot {
 	 *            Robots initial y position - note this can be outside of the
 	 *            plateau
 	 */
-	public Robot(final HEADING initialHeading, int x, int y) {
+	public Robot(final int initialHeading, int x, int y) {
 		NullParamterException.throwIfNull(initialHeading);
 		this.currentPosition = new Position(initialHeading, x, y);
 	}
@@ -84,8 +82,8 @@ public class Robot {
 	 * 
 	 * @return Robots current {@link Heading.HEADING}
 	 */
-	public HEADING getHeading() {
-		return currentPosition.getHeading();
+	public String getBearing() {
+		return currentPosition.toString();
 	}
 
 }

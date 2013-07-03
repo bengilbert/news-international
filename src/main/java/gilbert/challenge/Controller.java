@@ -1,7 +1,6 @@
-package gilbert.newsinternational;
+package gilbert.challenge;
 
-import gilbert.newsinternational.Command.MOVEMENT_COMMAND;
-import gilbert.newsinternational.Heading.HEADING;
+import gilbert.challenge.Command.MOVEMENT_COMMAND;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class Controller {
 		robots.clear();
 
 		for (Command command : commands) {
-			HEADING initialHeading = command.getInitialHeading();
+			int initialHeading = command.getInitialHeading();
 			int initialX = command.getInitialX();
 			int initialY = command.getInitialY();
 

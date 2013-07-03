@@ -1,4 +1,4 @@
-package gilbert.newsinternational;
+package gilbert.challenge;
 
 /**
  * Exception which can be throw when a required parameter is null
